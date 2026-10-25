@@ -33,40 +33,40 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
   return (
     <aside
       style={{
-        width: collapsed ? '68px' : '250px',
-        background: 'var(--bg-secondary)',
-        borderRight: '1px solid var(--default-border)',
+        width: collapsed ? '70px' : '256px',
+        background: 'var(--bg-sidebar)',
+        borderRight: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease',
         position: 'relative',
         zIndex: 30,
         flexShrink: 0,
+        boxShadow: '2px 0 12px rgba(0, 0, 0, 0.04)',
       }}
     >
       {/* Brand Header */}
       <div
         style={{
-          height: '64px',
+          height: '66px',
           padding: '0 18px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: collapsed ? 'center' : 'space-between',
-          borderBottom: '1px solid var(--default-border)',
+          borderBottom: '1px solid var(--border-default)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden' }}>
           <div
+            className="clay-button-primary"
             style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, var(--deep-purple) 0%, var(--primary-purple) 100%)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '10px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '18px',
-              boxShadow: '0 0 16px var(--purple-glow-color)',
               flexShrink: 0,
             }}
           >
@@ -78,7 +78,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
                 PatchGarden
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span style={{ color: 'var(--neon-cyan)' }}>AI Ops</span> • v0.1.0
+                <span style={{ color: 'var(--accent-primary)', fontWeight: '600' }}>AI Ops</span> • v0.1.0
               </div>
             </div>
           )}
@@ -89,14 +89,15 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
             onClick={() => setCollapsed(true)}
             id="btn-collapse-sidebar"
             aria-label="Collapse sidebar"
+            className="clay-button"
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-              display: 'flex',
               padding: '6px',
-              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: 'none',
+              background: 'transparent',
+              boxShadow: 'none',
             }}
           >
             <ChevronLeft size={16} />
@@ -105,7 +106,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
       </div>
 
       {/* Navigation List */}
-      <nav style={{ flex: 1, padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -114,6 +115,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               id={`nav-${item.id}`}
+              className={isActive ? 'clay-card-raised' : 'clay-button'}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -121,16 +123,16 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
                 width: '100%',
                 padding: collapsed ? '10px 0' : '10px 14px',
                 justifyContent: collapsed ? 'center' : 'flex-start',
-                borderRadius: '8px',
+                borderRadius: 'var(--radius-sm)',
                 border: '1px solid',
-                borderColor: isActive ? 'var(--purple-border)' : 'transparent',
-                background: isActive ? 'rgba(168, 85, 247, 0.12)' : 'transparent',
+                borderColor: isActive ? 'var(--border-purple)' : 'transparent',
+                background: isActive ? 'var(--surface-elevated)' : 'transparent',
                 color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                 cursor: 'pointer',
                 fontSize: '13px',
                 fontWeight: isActive ? '600' : '500',
-                transition: 'all 0.15s ease',
                 position: 'relative',
+                boxShadow: isActive ? 'var(--clay-shadow-button), var(--clay-inset-highlight)' : 'none',
               }}
             >
               {isActive && (
@@ -142,15 +144,15 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
                     bottom: '6px',
                     width: '3px',
                     borderRadius: '0 4px 4px 0',
-                    background: 'var(--primary-purple)',
-                    boxShadow: '0 0 8px var(--primary-purple)',
+                    background: 'var(--accent-primary)',
+                    boxShadow: '0 0 8px var(--accent-primary)',
                   }}
                 />
               )}
               <Icon
                 size={18}
                 style={{
-                  color: isActive ? 'var(--bright-purple)' : 'var(--text-muted)',
+                  color: isActive ? 'var(--accent-primary)' : 'var(--text-muted)',
                   flexShrink: 0,
                 }}
               />
@@ -161,12 +163,12 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
                 <span
                   style={{
                     fontSize: '10px',
-                    padding: '2px 6px',
+                    padding: '2px 7px',
                     borderRadius: '10px',
-                    background: 'rgba(34, 211, 238, 0.15)',
-                    color: 'var(--neon-cyan)',
-                    border: '1px solid rgba(34, 211, 238, 0.3)',
-                    fontWeight: '600',
+                    background: 'var(--status-success-bg)',
+                    color: 'var(--status-success)',
+                    border: '1px solid var(--border-subtle)',
+                    fontWeight: '700',
                   }}
                 >
                   {item.badge}
@@ -179,18 +181,13 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
 
       {/* Expand Button for Collapsed Mode */}
       {collapsed && (
-        <div style={{ padding: '12px', display: 'flex', justifyContent: 'center', borderTop: '1px solid var(--default-border)' }}>
+        <div style={{ padding: '12px', display: 'flex', justifyContent: 'center', borderTop: '1px solid var(--border-default)' }}>
           <button
             onClick={() => setCollapsed(false)}
             id="btn-expand-sidebar"
             aria-label="Expand sidebar"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-              padding: '6px',
-            }}
+            className="clay-button"
+            style={{ padding: '8px' }}
           >
             <ChevronRight size={18} />
           </button>
@@ -199,19 +196,17 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
 
       {/* Footer Banner */}
       {!collapsed && (
-        <div style={{ padding: '14px', borderTop: '1px solid var(--default-border)' }}>
+        <div style={{ padding: '16px', borderTop: '1px solid var(--border-default)' }}>
           <div
+            className="clay-card-inset"
             style={{
-              padding: '12px',
-              borderRadius: '8px',
-              background: 'var(--card-surface)',
-              border: '1px solid var(--default-border)',
+              padding: '12px 14px',
               display: 'flex',
               flexDirection: 'column',
               gap: '6px',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--bright-purple)', fontWeight: '600' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--accent-primary)', fontWeight: '700' }}>
               <Sparkles size={12} />
               <span>Hacktoberfest 2026</span>
             </div>
