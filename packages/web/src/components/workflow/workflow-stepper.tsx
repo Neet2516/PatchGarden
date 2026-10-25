@@ -44,36 +44,37 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
 
   return (
     <div
+      className="clay-card"
       style={{
-        padding: '20px 24px',
-        background: 'var(--card-surface)',
-        border: '1px solid var(--default-border)',
-        borderRadius: 'var(--radius-md)',
+        padding: '24px 28px',
         overflowX: 'auto',
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minWidth: '850px', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minWidth: '860px', position: 'relative' }}>
         
-        {/* Connecting Line Behind Steps */}
+        {/* Connecting Progress Track */}
         <div
           style={{
             position: 'absolute',
-            top: '20px',
-            left: '30px',
-            right: '30px',
-            height: '2px',
-            background: 'var(--default-border)',
+            top: '22px',
+            left: '32px',
+            right: '32px',
+            height: '4px',
+            background: 'var(--surface-secondary)',
+            borderRadius: '4px',
+            boxShadow: 'var(--clay-shadow-inset)',
             zIndex: 1,
           }}
         >
-          {/* Active Progress Fill */}
+          {/* Active Progress Fill with Soft Purple Gradient */}
           <div
             style={{
               height: '100%',
               width: `${(Math.max(0, currentIndex) / (WORKFLOW_STAGES.length - 1)) * 100}%`,
-              background: 'linear-gradient(90deg, var(--deep-purple) 0%, var(--primary-purple) 70%, var(--neon-cyan) 100%)',
-              boxShadow: '0 0 10px var(--primary-purple)',
-              transition: 'width 0.4s ease',
+              background: 'linear-gradient(90deg, var(--accent-violet) 0%, var(--accent-primary) 70%, var(--accent-cyan) 100%)',
+              borderRadius: '4px',
+              boxShadow: '0 0 10px var(--accent-purple-glow)',
+              transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         </div>
@@ -84,23 +85,6 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
           const isCurrent = idx === currentIndex;
           const isPending = idx > currentIndex;
           const Icon = stage.icon;
-
-          let nodeBg = 'var(--elevated-surface)';
-          let nodeBorder = 'var(--default-border)';
-          let iconColor = 'var(--text-muted)';
-          let labelColor = 'var(--text-muted)';
-
-          if (isCurrent) {
-            nodeBg = isFailed ? 'rgba(251, 113, 133, 0.15)' : 'rgba(168, 85, 247, 0.15)';
-            nodeBorder = isFailed ? 'var(--error)' : 'var(--primary-purple)';
-            iconColor = isFailed ? 'var(--error)' : 'var(--bright-purple)';
-            labelColor = isFailed ? 'var(--error)' : 'var(--text-primary)';
-          } else if (isPassed) {
-            nodeBg = 'rgba(52, 211, 153, 0.1)';
-            nodeBorder = 'rgba(52, 211, 153, 0.3)';
-            iconColor = 'var(--success)';
-            labelColor = 'var(--text-secondary)';
-          }
 
           return (
             <div
@@ -115,32 +99,63 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
                 cursor: 'default',
               }}
             >
-              {/* Step Circle Node */}
+              {/* Molded Clay Circle Node */}
               <div
+                className={
+                  isCurrent
+                    ? 'active-step-glow'
+                    : isPassed
+                    ? 'clay-card'
+                    : 'clay-card-inset'
+                }
                 style={{
-                  width: '40px',
-                  height: '40px',
+                  width: '44px',
+                  height: '44px',
                   borderRadius: '50%',
-                  background: nodeBg,
-                  border: `2px solid ${nodeBorder}`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   transition: 'all 0.25s ease',
-                  boxShadow: isCurrent ? (isFailed ? '0 0 16px rgba(251, 113, 133, 0.3)' : '0 0 20px var(--purple-glow-color)') : 'none',
+                  background: isCurrent
+                    ? (isFailed ? 'var(--status-error-bg)' : 'linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-violet) 100%)')
+                    : isPassed
+                    ? 'var(--surface-elevated)'
+                    : 'var(--surface-secondary)',
+                  border: isCurrent
+                    ? (isFailed ? '2px solid var(--status-error)' : '2px solid var(--accent-primary)')
+                    : isPassed
+                    ? '2px solid var(--border-purple)'
+                    : '2px solid var(--border-default)',
+                  boxShadow: isCurrent
+                    ? '0 6px 18px var(--accent-purple-glow), var(--clay-inset-button-primary)'
+                    : isPassed
+                    ? 'var(--clay-shadow-button), var(--clay-inset-highlight)'
+                    : 'var(--clay-shadow-inset)',
                 }}
-                className={isCurrent ? 'active-step-pulse' : ''}
               >
-                <Icon size={18} style={{ color: iconColor }} />
+                <Icon
+                  size={19}
+                  style={{
+                    color: isCurrent
+                      ? (isFailed ? 'var(--status-error)' : '#FFFFFF')
+                      : isPassed
+                      ? 'var(--status-success)'
+                      : 'var(--text-muted)',
+                  }}
+                />
               </div>
 
-              {/* Step Label */}
-              <div style={{ marginTop: '10px', textAlign: 'center' }}>
+              {/* Step Labels */}
+              <div style={{ marginTop: '12px', textAlign: 'center' }}>
                 <div
                   style={{
                     fontSize: '12px',
-                    fontWeight: isCurrent ? '700' : '500',
-                    color: labelColor,
+                    fontWeight: isCurrent ? '700' : '600',
+                    color: isCurrent
+                      ? 'var(--text-primary)'
+                      : isPassed
+                      ? 'var(--text-secondary)'
+                      : 'var(--text-muted)',
                     whiteSpace: 'nowrap',
                     letterSpacing: '-0.01em',
                   }}
@@ -150,8 +165,13 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
                 <div
                   style={{
                     fontSize: '10px',
-                    color: isCurrent ? 'var(--neon-cyan)' : 'var(--text-muted)',
+                    color: isCurrent
+                      ? 'var(--accent-primary)'
+                      : isPassed
+                      ? 'var(--status-success)'
+                      : 'var(--text-muted)',
                     marginTop: '2px',
+                    fontWeight: '600',
                     whiteSpace: 'nowrap',
                   }}
                 >
