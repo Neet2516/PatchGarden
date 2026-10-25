@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeProvider } from '@/lib/theme';
 
 export const metadata: Metadata = {
-  title: 'PatchGarden — Neon Noir AI Operations Console',
-  description: 'Slow and Steady AI maintenance engineer for open-source repositories with Google Gemma 3 local inference and Temporal durable workflows.',
+  title: 'PatchGarden — Purple Claymorphism AI DevOps Dashboard',
+  description: 'Slow and Steady AI maintenance engineer for open-source software with Google Gemma 3 local reasoning, Temporal durable workflows, and human maintainer gates.',
   icons: {
     icon: '/favicon.ico',
   },
@@ -15,9 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
