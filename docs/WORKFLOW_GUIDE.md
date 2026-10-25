@@ -56,24 +56,31 @@ powershell -File scripts/doctor.ps1
 
 ## 🖥️ Step 3: Launch PatchGarden Applications
 
-You can start the services concurrently or in separate terminal windows:
+You can start the entire stack with a **single command**:
 
-### Terminal 1: Fastify API Server (Port 3001)
 ```bash
-npm run dev -w packages/api
+npm run dev
+```
+> This starts the **Fastify API Server (Port 3001)**, **Temporal AI Worker**, and **Next.js Web Dashboard (Port 3000)** concurrently in one terminal using `concurrently`.
+
+---
+
+#### Alternative: Running Services in Separate Terminals (for debugging)
+
+If you prefer separate logs for each service:
+
+```bash
+# Terminal 1: Fastify API Server (Port 3001)
+npm run dev:api
+
+# Terminal 2: Temporal AI Worker
+npm run dev:worker
+
+# Terminal 3: Maintainer Dashboard (Port 3000)
+npm run dev:web
 ```
 
-### Terminal 2: Temporal AI Worker
-```bash
-npm run dev -w packages/worker
-```
-
-### Terminal 3: Maintainer Dashboard (Port 3000)
-```bash
-npm run dev -w packages/web
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to access the Maintainer Dashboard.
+Once running, open [http://localhost:3000](http://localhost:3000) in your browser to access the Maintainer Dashboard.
 
 ---
 
