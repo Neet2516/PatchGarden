@@ -1,0 +1,8 @@
+{
+  "name": "broken-calc",
+  "version": "1.0.0",
+  "description": "Benchmark fixture for PatchGarden: contains reproducible divide-by-zero failure",
+  "scripts": {
+    "test": "node --test"
+  }
+}
