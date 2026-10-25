@@ -1,0 +1,30 @@
+{
+  "name": "@patchgarden/worker",
+  "version": "0.1.0",
+  "description": "PatchGarden Temporal worker with Gemma AI integration",
+  "private": true,
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@patchgarden/core": "*",
+    "@temporalio/worker": "^1.11.0",
+    "@temporalio/activity": "^1.11.0",
+    "@temporalio/workflow": "^1.11.0",
+    "@sentry/node": "^8.0.0",
+    "axios": "^1.7.0",
+    "zod": "^3.23.0",
+    "diff": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.2.0",
+    "@types/node": "^22.0.0",
+    "rimraf": "^6.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.6.0"
+  }
+}

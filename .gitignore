@@ -1,0 +1,107 @@
+# ==============================================================================
+# PatchGarden — .gitignore
+# ==============================================================================
+
+# ── Environment & Secrets ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.production
+*.secret
+*.pem
+*.key
+*.p8
+
+# ── Node.js ───────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.*
+
+# ── Build Outputs ─────────────────────────────────────────────────────────────
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vite/
+*.tsbuildinfo
+*.d.ts.map
+
+# ── Runtime Data ──────────────────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+patchgarden.db
+data/
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+logs/*.log
+logs/operational/
+*.log
+npm-debug.log
+
+# ── AI Model Weights ──────────────────────────────────────────────────────────
+*.gguf
+*.bin
+*.safetensors
+*.onnx
+models/
+
+# ── Git Worktrees / Isolated Workspaces ───────────────────────────────────────
+workspaces/
+worktrees/
+.patchgarden-workspace/
+
+# ── Test Artifacts ────────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+*.lcov
+
+# ── OS & Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+*~
+.vscode/settings.json
+.vscode/launch.json
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+.docker-compose.override.yml
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.Python
+venv/
+.venv/
+*.egg-info/
+dist/
+
+# ── Temporal ──────────────────────────────────────────────────────────────────
+temporal-data/
+
+# ── Sensitive Repos Cloned for Repair ─────────────────────────────────────────
+repos/
+imported-repos/
+
+# ── Sentry ────────────────────────────────────────────────────────────────────
+.sentryclirc
+
+# ── Miscellaneous ─────────────────────────────────────────────────────────────
+*.tmp
+*.bak
+*.orig
+*.patch.applied

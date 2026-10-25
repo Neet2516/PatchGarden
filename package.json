@@ -1,0 +1,58 @@
+{
+  "name": "patchgarden",
+  "version": "0.1.0",
+  "description": "An AI maintenance engineer that never rushes a patch",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "concurrently \"npm run dev -w packages/api\" \"npm run dev -w packages/web\" \"npm run dev -w packages/worker\"",
+    "dev:api": "npm run dev -w packages/api",
+    "dev:web": "npm run dev -w packages/web",
+    "dev:worker": "npm run dev -w packages/worker",
+    "lint": "eslint packages/*/src --ext .ts,.tsx --max-warnings 0",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:security": "vitest run tests/security",
+    "test:recovery": "vitest run tests/recovery",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "doctor": "powershell -File scripts/doctor.ps1",
+    "verify": "powershell -File scripts/verify.ps1",
+    "demo": "powershell -File scripts/demo.ps1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Neet2516/patchgarden.git"
+  },
+  "author": "Navneet Sinha",
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "maintenance",
+    "open-source",
+    "hacktoberfest",
+    "gemma",
+    "temporal",
+    "developer-tools"
+  ]
+}

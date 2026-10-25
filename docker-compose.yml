@@ -1,0 +1,139 @@
+version: "3.9"
+
+services:
+  # ── Ollama (Local Gemma Inference) ─────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: patchgarden-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=5m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # ── Temporal Server (Durable Workflow Engine) ───────────────────────────────
+  temporal:
+    image: temporalio/auto-setup:1.25
+    container_name: patchgarden-temporal
+    ports:
+      - "7233:7233"
+      - "7234:7234"
+      - "7235:7235"
+      - "7239:7239"
+    environment:
+      - DB=sqlite
+      - DYNAMIC_CONFIG_FILE_PATH=/etc/temporal/dynamic-config.yaml
+    volumes:
+      - temporal-data:/var/lib/temporal/persistence
+      - ./temporal-config:/etc/temporal/dynamic-config
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "temporal", "workflow", "list", "--namespace", "default"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # ── Temporal UI (Optional — for debugging) ─────────────────────────────────
+  temporal-ui:
+    image: temporalio/ui:2.31
+    container_name: patchgarden-temporal-ui
+    ports:
+      - "8080:8080"
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+    depends_on:
+      temporal:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - debug
+
+  # ── PatchGarden API Server ─────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: packages/api/Dockerfile
+    container_name: patchgarden-api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DATABASE_URL=/data/patchgarden.db
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_NAMESPACE=patchgarden
+      - TEMPORAL_TASK_QUEUE=patchgarden-worker
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - SENTRY_DSN=${SENTRY_DSN:-}
+      - SENTRY_ENVIRONMENT=production
+    volumes:
+      - patchgarden-data:/data
+      - patchgarden-jobs:/jobs
+    depends_on:
+      temporal:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - production
+
+  # ── PatchGarden Worker ─────────────────────────────────────────────────────
+  worker:
+    build:
+      context: .
+      dockerfile: packages/worker/Dockerfile
+    container_name: patchgarden-worker
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=/data/patchgarden.db
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_NAMESPACE=patchgarden
+      - TEMPORAL_TASK_QUEUE=patchgarden-worker
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-gemma3:4b}
+      - OLLAMA_TIMEOUT_SECONDS=120
+      - SENTRY_DSN=${SENTRY_DSN:-}
+      - WORKSPACE_ROOT=/workspaces
+      - EVIDENCE_ROOT=/jobs
+    volumes:
+      - patchgarden-data:/data
+      - patchgarden-jobs:/jobs
+      - patchgarden-workspaces:/workspaces
+      # Mount host repos read-only for analysis (user configures their repo path)
+      - ${REPOS_ROOT:-./repos}:/repos:ro
+    depends_on:
+      temporal:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  ollama-data:
+    driver: local
+  temporal-data:
+    driver: local
+  patchgarden-data:
+    driver: local
+  patchgarden-jobs:
+    driver: local
+  patchgarden-workspaces:
+    driver: local
