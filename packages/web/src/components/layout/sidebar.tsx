@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   LayoutDashboard,
   GitPullRequest,
@@ -56,7 +57,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
           borderBottom: '1px solid var(--border-default)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden' }}>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden' }}>
           <div
             className="clay-button-primary"
             style={{
@@ -82,7 +83,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
               </div>
             </div>
           )}
-        </div>
+        </Link>
 
         {!collapsed && (
           <button
