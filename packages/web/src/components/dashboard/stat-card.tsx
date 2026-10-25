@@ -21,33 +21,43 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <div
+      className={glow ? 'clay-card-raised' : 'clay-card'}
       style={{
-        padding: '18px 20px',
-        background: 'var(--card-surface)',
-        border: '1px solid var(--default-border)',
-        borderRadius: 'var(--radius-md)',
+        padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: glow ? `0 0 20px ${accentColor}25` : 'none',
       }}
-      className="surface-hover"
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-        <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           {label}
         </span>
-        {Icon && <Icon size={16} style={{ color: accentColor }} />}
+        {Icon && (
+          <div
+            className="clay-card-inset"
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon size={16} style={{ color: accentColor }} />
+          </div>
+        )}
       </div>
 
-      <div style={{ fontSize: '24px', fontWeight: '700', color: accentColor, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+      <div style={{ fontSize: '26px', fontWeight: '700', color: accentColor, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
         {value}
       </div>
 
       {subtext && (
-        <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '6px' }}>
+        <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '8px' }}>
           {subtext}
         </div>
       )}
