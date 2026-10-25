@@ -1,4 +1,4 @@
-import { Worker } from '@temporalio/worker';
+import { NativeConnection, Worker } from '@temporalio/worker';
 import * as Sentry from '@sentry/node';
 import * as activities from './activities/index.js';
 
@@ -17,19 +17,21 @@ if (process.env['SENTRY_DSN']) {
 // Temporal Worker
 // ──────────────────────────────────────────────────────────────────────────────
 async function main() {
+  const connection = await NativeConnection.connect({
+    address: process.env['TEMPORAL_ADDRESS'] ?? 'localhost:7233',
+  });
+
   const worker = await Worker.create({
-    workflowsPath: new URL('./workflows/index.js', import.meta.url).pathname,
+    connection,
+    workflowsPath: require.resolve('./workflows/index'),
     activities,
     taskQueue: process.env['TEMPORAL_TASK_QUEUE'] ?? 'patchgarden-worker',
-    connection: {
-      address: process.env['TEMPORAL_ADDRESS'] ?? 'localhost:7233',
-    },
     namespace: process.env['TEMPORAL_NAMESPACE'] ?? 'patchgarden',
     maxConcurrentActivityTaskExecutions: 2,
     maxConcurrentWorkflowTaskExecutions: 2,
   });
 
-  console.log('PatchGarden worker started. Listening for tasks...');
+  console.log('PatchGarden worker started. Listening for tasks on queue: patchgarden-worker...');
   await worker.run();
 }
 

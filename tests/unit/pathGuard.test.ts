@@ -12,11 +12,11 @@ describe('Security: Path Guard', () => {
 
   it('blocks path traversal attempts (../ escape)', () => {
     const maliciousPath = path.join(workspaceRoot, '..', '..', 'etc', 'passwd');
-    expect(() => assertPathInWorkspace(maliciousPath, workspaceRoot)).toThrow(/Path escape detected/);
+    expect(() => assertPathInWorkspace(maliciousPath, workspaceRoot)).toThrow(/Path traversal detected/);
   });
 
   it('blocks root traversal tricks', () => {
     const rootEscape = path.resolve('/etc/shadow');
-    expect(() => assertPathInWorkspace(rootEscape, workspaceRoot)).toThrow(/Path escape detected/);
+    expect(() => assertPathInWorkspace(rootEscape, workspaceRoot)).toThrow(/Path traversal detected/);
   });
 });

@@ -27,24 +27,20 @@ if (process.env['SENTRY_DSN']) {
 const app = Fastify({
   logger: {
     level: process.env['LOG_LEVEL'] ?? 'info',
-    transport:
-      process.env['NODE_ENV'] !== 'production'
-        ? { target: 'pino-pretty' }
-        : undefined,
   },
 });
 
 // ── Plugins ──────────────────────────────────────────────────────────────────
 
-await app.register(helmet, { global: true });
-await app.register(cors, {
+app.register(helmet, { global: true });
+app.register(cors, {
   origin: [
     'http://localhost:3000',
     process.env['FRONTEND_URL'] ?? 'http://localhost:3000',
   ],
   credentials: true,
 });
-await app.register(websocket);
+app.register(websocket);
 
 // ── Database and Temporal Client ─────────────────────────────────────────────
 
@@ -309,7 +305,16 @@ app.get('/jobs/:id/live', { websocket: true }, (socket, request) => {
 // Start Server
 // ──────────────────────────────────────────────────────────────────────────────
 
-const PORT = parseInt(process.env['PORT'] ?? '3001', 10);
+async function start() {
+  try {
+    const PORT = parseInt(process.env['PORT'] ?? '3001', 10);
+    await app.listen({ port: PORT, host: '0.0.0.0' });
+    app.log.info(`PatchGarden API running on port ${PORT}`);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+}
 
-await app.listen({ port: PORT, host: '0.0.0.0' });
-app.log.info(`PatchGarden API running on port ${PORT}`);
+start();
+

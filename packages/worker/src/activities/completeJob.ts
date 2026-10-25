@@ -3,20 +3,22 @@ import path from 'path';
 import { getDatabase, JobRepository, CheckpointRepository, AuditEventRepository } from '@patchgarden/core';
 import type { JobStatus, ApprovalState } from '@patchgarden/core';
 
-interface CompleteJobInput {
+export interface CompleteJobInput {
   jobId: string;
   finalStatus: 'APPROVED' | 'REJECTED_PROPOSAL' | 'REJECTED_RESULT' | 'BLOCKED';
-  evidenceRoot: string;
+  evidenceRoot?: string | undefined;
+  reason?: string | undefined;
 }
 
-interface CompleteJobOutput {
+export interface CompleteJobOutput {
   success: boolean;
   evidenceSummaryPath?: string;
   error?: string;
 }
 
 export async function completeJob(input: CompleteJobInput): Promise<CompleteJobOutput> {
-  const { jobId, finalStatus, evidenceRoot } = input;
+  const { jobId, finalStatus, reason } = input;
+  const evidenceRoot = input.evidenceRoot ?? process.env['EVIDENCE_ROOT'] ?? './evidence';
   const db = getDatabase();
   const jobRepo = new JobRepository(db);
   const ckptRepo = new CheckpointRepository(db);
@@ -26,39 +28,40 @@ export async function completeJob(input: CompleteJobInput): Promise<CompleteJobO
     const job = jobRepo.findById(jobId);
     if (!job) throw new Error(`Job not found: ${jobId}`);
 
-    let targetStatus: JobStatus = 'COMPLETED';
-    let targetApproval: ApprovalState = 'FINAL_APPROVED';
+    let targetStatus: JobStatus = 'COMPLETE';
+    let targetApproval: ApprovalState = 'RESULT_APPROVED';
 
     if (finalStatus === 'APPROVED') {
-      targetStatus = 'COMPLETED';
-      targetApproval = 'FINAL_APPROVED';
+      targetStatus = 'COMPLETE';
+      targetApproval = 'RESULT_APPROVED';
     } else if (finalStatus === 'REJECTED_PROPOSAL') {
-      targetStatus = 'CANCELLED';
+      targetStatus = 'COMPLETE';
       targetApproval = 'PROPOSAL_REJECTED';
     } else if (finalStatus === 'REJECTED_RESULT') {
-      targetStatus = 'CANCELLED';
-      targetApproval = 'FINAL_REJECTED';
+      targetStatus = 'COMPLETE';
+      targetApproval = 'RESULT_REJECTED';
     } else {
-      targetStatus = 'FAILED';
+      targetStatus = 'BLOCKED';
       targetApproval = 'PENDING';
     }
 
-    jobRepo.transition(jobId, 'COMPLETE', {
+    jobRepo.transition(jobId, finalStatus === 'BLOCKED' ? 'BLOCKED' : 'COMPLETE', {
       status: targetStatus,
       approvalState: targetApproval,
+      ...(reason ? { errorMessage: reason } : {}),
     });
 
     ckptRepo.create({
       jobId,
-      stage: 'COMPLETE',
+      stage: finalStatus === 'BLOCKED' ? 'BLOCKED' : 'COMPLETE',
       workerVersion: '0.1.0',
     });
 
-    auditRepo.log({
+    auditRepo.append({
       jobId,
       eventType: 'STAGE_TRANSITION',
-      summary: `Job completed with status ${targetStatus} (${targetApproval})`,
-      details: { finalStatus, completedAt: new Date().toISOString() },
+      actor: 'system',
+      payload: { finalStatus, reason: reason ?? null, completedAt: new Date().toISOString() },
     });
 
     // Write final summary into evidence directory
@@ -77,8 +80,9 @@ export async function completeJob(input: CompleteJobInput): Promise<CompleteJobO
           status: updatedJob?.status,
           approvalState: updatedJob?.approvalState,
           baselineResult: updatedJob?.baselineResult,
-          analysisResult: updatedJob?.analysisResult,
+          analysis: updatedJob?.analysis,
           candidateResult: updatedJob?.candidateResult,
+          reason: reason ?? null,
           completedAt: new Date().toISOString(),
         },
         null,

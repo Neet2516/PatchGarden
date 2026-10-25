@@ -6,7 +6,7 @@ interface StatCardProps {
   label: string;
   value: string | number;
   subtext?: string;
-  icon?: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon?: React.ElementType;
   accentColor?: string;
   glow?: boolean;
 }

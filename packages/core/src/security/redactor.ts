@@ -12,9 +12,14 @@ interface RedactionPattern {
 
 const REDACTION_PATTERNS: RedactionPattern[] = [
   {
+    name: 'OPENAI_API_KEY',
+    pattern: /sk-[A-Za-z0-9_-]{20,}/g,
+    replacement: '[REDACTED_API_KEY]',
+  },
+  {
     name: 'GITHUB_TOKEN',
     pattern: /ghp_[A-Za-z0-9]{36}/g,
-    replacement: '[REDACTED:GITHUB_TOKEN]',
+    replacement: '[REDACTED_GITHUB_TOKEN]',
   },
   {
     name: 'GITHUB_OAUTH',
@@ -29,7 +34,7 @@ const REDACTION_PATTERNS: RedactionPattern[] = [
   {
     name: 'AWS_ACCESS_KEY',
     pattern: /AKIA[0-9A-Z]{16}/g,
-    replacement: '[REDACTED:AWS_ACCESS_KEY]',
+    replacement: '[REDACTED_AWS_KEY]',
   },
   {
     name: 'AWS_SECRET',
@@ -104,3 +109,5 @@ export function redactObject<T extends Record<string, unknown>>(
   }
   return result;
 }
+
+export const redactSecrets = redactString;

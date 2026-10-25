@@ -1,4 +1,4 @@
-import { proxyActivities, setHandler, condition, sleep } from '@temporalio/workflow';
+import { defineSignal, proxyActivities, setHandler, condition } from '@temporalio/workflow';
 import type * as activities from '../activities/index.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -34,10 +34,10 @@ const {
 // Signals
 // ──────────────────────────────────────────────────────────────────────────────
 
-export const approveProposalSignal = 'approveProposal';
-export const rejectProposalSignal = 'rejectProposal';
-export const approveFinalSignal = 'approveFinal';
-export const rejectFinalSignal = 'rejectFinal';
+export const approveProposalSignal = defineSignal('approveProposal');
+export const rejectProposalSignal = defineSignal<[string | undefined]>('rejectProposal');
+export const approveFinalSignal = defineSignal('approveFinal');
+export const rejectFinalSignal = defineSignal<[string | undefined]>('rejectFinal');
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Workflow Input / Output
@@ -100,7 +100,7 @@ export async function PatchGardenWorkflow(
     });
 
     if (!inspectResult.success) {
-      await completeJob({ jobId, status: 'BLOCKED', reason: inspectResult.error });
+      await completeJob({ jobId, finalStatus: 'BLOCKED', reason: inspectResult.error, evidenceRoot });
       return { jobId, finalStatus: 'BLOCKED', evidenceDir: null };
     }
 
@@ -114,8 +114,9 @@ export async function PatchGardenWorkflow(
     if (!failureResult.success || failureResult.failingTests?.length === 0) {
       await completeJob({
         jobId,
-        status: 'BLOCKED',
+        finalStatus: 'BLOCKED',
         reason: failureResult.error ?? 'No failing tests found',
+        evidenceRoot,
       });
       return { jobId, finalStatus: 'BLOCKED', evidenceDir: null };
     }
@@ -137,10 +138,11 @@ export async function PatchGardenWorkflow(
     if (!analysisResult.success || analysisResult.confidence === 'INSUFFICIENT') {
       await completeJob({
         jobId,
-        status: 'BLOCKED',
+        finalStatus: 'BLOCKED',
         reason: 'AI analysis: insufficient evidence to propose a repair',
+        evidenceRoot,
       });
-      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir };
+      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir ?? null };
     }
 
     // ── Stage 5: Create Workspace ────────────────────────────────────────────
@@ -151,8 +153,8 @@ export async function PatchGardenWorkflow(
     });
 
     if (!workspaceResult.success) {
-      await completeJob({ jobId, status: 'BLOCKED', reason: workspaceResult.error });
-      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir };
+      await completeJob({ jobId, finalStatus: 'BLOCKED', reason: workspaceResult.error, evidenceRoot });
+      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir ?? null };
     }
 
     // ── Gate: Wait for Human Proposal Approval (max 24 hours) ───────────────
@@ -161,13 +163,14 @@ export async function PatchGardenWorkflow(
     if (proposalDecision === 'rejected' || proposalDecision === null) {
       await completeJob({
         jobId,
-        status: 'REJECTED_PROPOSAL',
+        finalStatus: 'REJECTED_PROPOSAL',
         reason: proposalRejectionReason ?? 'Proposal rejected by user (or timed out)',
+        evidenceRoot,
       });
       return {
         jobId,
         finalStatus: 'REJECTED_PROPOSAL',
-        evidenceDir: evidenceResult.evidenceDir,
+        evidenceDir: evidenceResult.evidenceDir ?? null,
       };
     }
 
@@ -179,12 +182,12 @@ export async function PatchGardenWorkflow(
     });
 
     if (!patchResult.success) {
-      await completeJob({ jobId, status: 'BLOCKED', reason: patchResult.error });
-      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir };
+      await completeJob({ jobId, finalStatus: 'BLOCKED', reason: patchResult.error, evidenceRoot });
+      return { jobId, finalStatus: 'BLOCKED', evidenceDir: evidenceResult.evidenceDir ?? null };
     }
 
     // ── Stage 7: Verify Patch ────────────────────────────────────────────────
-    const verifyResult = await verifyPatch({
+    await verifyPatch({
       jobId,
       worktreePath: workspaceResult.worktreePath!,
       evidenceRoot,
@@ -196,27 +199,28 @@ export async function PatchGardenWorkflow(
     if (finalDecision === 'rejected' || finalDecision === null) {
       await completeJob({
         jobId,
-        status: 'REJECTED_RESULT',
+        finalStatus: 'REJECTED_RESULT',
         reason: finalRejectionReason ?? 'Result rejected by user (or timed out)',
+        evidenceRoot,
       });
       return {
         jobId,
         finalStatus: 'REJECTED_RESULT',
-        evidenceDir: evidenceResult.evidenceDir,
+        evidenceDir: evidenceResult.evidenceDir ?? null,
       };
     }
 
     // ── Complete ─────────────────────────────────────────────────────────────
-    await completeJob({ jobId, status: 'APPROVED' });
+    await completeJob({ jobId, finalStatus: 'APPROVED', evidenceRoot });
     return {
       jobId,
       finalStatus: 'APPROVED',
-      evidenceDir: evidenceResult.evidenceDir,
+      evidenceDir: evidenceResult.evidenceDir ?? null,
     };
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : String(err);
-    await completeJob({ jobId, status: 'BLOCKED', reason: errorMessage });
+    await completeJob({ jobId, finalStatus: 'BLOCKED', reason: errorMessage, evidenceRoot });
     return { jobId, finalStatus: 'BLOCKED', evidenceDir: null };
   }
 }

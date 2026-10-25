@@ -18,7 +18,7 @@ export interface WorkflowStageInfo {
   id: string;
   label: string;
   shortDesc: string;
-  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon: React.ElementType;
 }
 
 export const WORKFLOW_STAGES: WorkflowStageInfo[] = [

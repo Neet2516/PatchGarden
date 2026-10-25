@@ -31,13 +31,9 @@ services:
       - "8233"
       - --namespace
       - patchgarden
-      - --db-filename
-      - /var/lib/temporal/persistence/temporal.db
     ports:
       - "7233:7233"
       - "8233:8233"
-    volumes:
-      - temporal-data:/var/lib/temporal/persistence
     restart: unless-stopped
 
   # ── Temporal UI (Optional — for debugging) ─────────────────────────────────

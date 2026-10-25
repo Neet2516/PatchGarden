@@ -2,7 +2,7 @@ import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { getDatabase, JobRepository, CheckpointRepository } from '@patchgarden/core';
-import type { FailingTest } from '@patchgarden/core';
+import type { FailingTest, TestResult, TestStatus } from '@patchgarden/core';
 
 interface IdentifyFailureInput {
   jobId: string;
@@ -102,10 +102,15 @@ export async function identifyFailure(
   // Save baseline evidence
   const evidenceDir = path.join(evidenceRoot, jobId);
   fs.mkdirSync(evidenceDir, { recursive: true });
-  const baselineResult = {
-    exitCode, status: exitCode === 0 ? 'PASS' : 'FAIL',
-    failingTests, passingTests: [], totalTests: failingTests.length,
-    durationMs: 0, stdout: stdout.slice(0, 50_000), stderr: stderr.slice(0, 20_000),
+  const baselineResult: TestResult = {
+    exitCode,
+    status: (exitCode === 0 ? 'PASS' : 'FAIL') as TestStatus,
+    failingTests,
+    passingTests: [],
+    totalTests: failingTests.length,
+    durationMs: 0,
+    stdout: stdout.slice(0, 50_000),
+    stderr: stderr.slice(0, 20_000),
     timedOut,
   };
   fs.writeFileSync(path.join(evidenceDir, 'baseline.json'), JSON.stringify(baselineResult, null, 2));
