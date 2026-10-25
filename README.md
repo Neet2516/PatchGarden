@@ -105,7 +105,7 @@ cp .env.example .env
 
 ### 2. Launch Local Infrastructure (Ollama + Temporal)
 ```bash
-docker compose up -d ollama temporal temporal-admin-tools
+docker compose up -d ollama temporal
 ```
 
 Pull the Gemma 3 model for local AI inference:

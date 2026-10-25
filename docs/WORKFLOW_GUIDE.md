@@ -38,7 +38,7 @@ Run the core background infrastructure:
 
 ```bash
 # Start Ollama and Temporal services in detached mode
-docker compose up -d ollama temporal temporal-admin-tools
+docker compose up -d ollama temporal
 ```
 
 Download the local Google Gemma model:
