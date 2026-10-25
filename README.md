@@ -133,6 +133,8 @@ npm run dev -w packages/web
 
 Open [http://localhost:3000](http://localhost:3000) to view the Maintainer Dashboard.
 
+> 📖 **Looking for a full walkthrough?** Check out the [Complete Workflow & Quickstart Guide](docs/WORKFLOW_GUIDE.md) featuring a real step-by-step example with `fixtures/broken-calc`.
+
 ---
 
 ## 📦 Monorepo Structure
