@@ -2,7 +2,8 @@
   "name": "broken-calc",
   "version": "1.0.0",
   "description": "Benchmark fixture for PatchGarden: contains reproducible divide-by-zero failure",
+  "type": "module",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test test/calculator.test.js"
   }
 }
