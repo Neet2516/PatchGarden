@@ -11,10 +11,9 @@ import {
   AlertCircle,
   CheckCircle2,
   Clock,
-  Sparkles,
   GitCommit,
-  Check,
   X,
+  Sparkles,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -66,7 +65,6 @@ export default function DashboardPage() {
     setIsProcessing(true);
     setNotification('⚡ Maintainer approved proposal. Temporal worker provisioning isolated worktree...');
 
-    // Simulate worktree execution
     setTimeout(() => {
       setJobState(prev => ({
         ...prev,
@@ -130,29 +128,31 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
 
   return (
     <AppShell repoPath={jobState.repoPath}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '26px' }}>
         
         {/* Toast Notification Banner */}
         {notification && (
           <div
+            className="clay-card-raised"
             style={{
-              padding: '12px 18px',
-              borderRadius: 'var(--radius-sm)',
-              background: 'rgba(34, 211, 238, 0.08)',
-              border: '1px solid rgba(34, 211, 238, 0.3)',
-              color: 'var(--neon-cyan)',
+              padding: '14px 20px',
+              borderLeft: '4px solid var(--accent-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               fontSize: '13px',
               fontWeight: '500',
-              boxShadow: '0 0 16px rgba(34, 211, 238, 0.15)',
+              color: 'var(--text-primary)',
             }}
           >
-            <span>{notification}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Sparkles size={16} style={{ color: 'var(--accent-primary)' }} />
+              <span>{notification}</span>
+            </div>
             <button
               onClick={() => setNotification(null)}
-              style={{ background: 'transparent', border: 'none', color: 'var(--neon-cyan)', cursor: 'pointer' }}
+              className="clay-button"
+              style={{ padding: '4px', border: 'none', background: 'transparent', boxShadow: 'none' }}
             >
               <X size={16} />
             </button>
@@ -163,14 +163,14 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-              <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--bright-purple)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--accent-primary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Active Maintenance Workflow
               </span>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>•</span>
-              <code style={{ fontSize: '11px', color: 'var(--neon-cyan)' }}>{jobState.id}</code>
+              <code style={{ fontSize: '11px', color: 'var(--accent-cyan)' }}>{jobState.id}</code>
             </div>
             <h1 style={{ margin: 0 }}>
-              Investigate & Verify <span style={{ color: 'var(--bright-purple)' }}>{jobState.repoPath}</span>
+              Investigate & Verify <span style={{ color: 'var(--accent-primary)' }}>{jobState.repoPath}</span>
             </h1>
             <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
               Failure symptom: <code>divide by zero returns Infinity instead of RangeError</code>
@@ -179,25 +179,27 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
+              className="clay-card"
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
+                gap: '8px',
+                padding: '8px 16px',
                 borderRadius: 'var(--radius-pill)',
-                background: jobState.failingCount > 0 ? 'rgba(251, 191, 36, 0.12)' : 'rgba(52, 211, 153, 0.12)',
-                border: `1px solid ${jobState.failingCount > 0 ? 'rgba(251, 191, 36, 0.3)' : 'rgba(52, 211, 153, 0.3)'}`,
-                color: jobState.failingCount > 0 ? 'var(--warning)' : 'var(--success)',
+                background: jobState.failingCount > 0 ? 'var(--status-warning-bg)' : 'var(--status-success-bg)',
+                border: `1px solid ${jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)'}`,
+                color: jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)',
                 fontSize: '12px',
-                fontWeight: '600',
+                fontWeight: '700',
               }}
             >
               <span
                 style={{
-                  width: '6px',
-                  height: '6px',
+                  width: '7px',
+                  height: '7px',
                   borderRadius: '50%',
-                  background: jobState.failingCount > 0 ? 'var(--warning)' : 'var(--success)',
+                  background: jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)',
+                  boxShadow: `0 0 8px ${jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)'}`,
                 }}
               />
               <span>{jobState.stage === 'COMPLETE' ? 'Maintenance Sealed' : 'Maintainer Action Required'}</span>
@@ -205,34 +207,34 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
           </div>
         </div>
 
-        {/* 10-Stage Workflow Stepper */}
+        {/* 10-Stage Purple Claymorphism Workflow Stepper */}
         <WorkflowStepper
           currentStageId={jobState.stage}
           isFailed={jobState.status === 'FAILED'}
         />
 
-        {/* 4 Metric Cards Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+        {/* 4 Metric Clay Cards Row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '18px' }}>
           <StatCard
             label="Failing Tests"
             value={jobState.failingCount}
             subtext="Baseline failure captured"
             icon={AlertCircle}
-            accentColor={jobState.failingCount > 0 ? 'var(--error)' : 'var(--success)'}
+            accentColor={jobState.failingCount > 0 ? 'var(--status-error)' : 'var(--status-success)'}
           />
           <StatCard
             label="Passing Tests"
             value={jobState.passingCount}
-            subtext="Regression suite"
+            subtext="Regression test suite"
             icon={CheckCircle2}
-            accentColor="var(--success)"
+            accentColor="var(--status-success)"
           />
           <StatCard
             label="Diff Blast Radius"
             value={jobState.proposal.riskLevel}
             subtext="1 file • 4 lines added"
             icon={GitCommit}
-            accentColor="var(--neon-cyan)"
+            accentColor="var(--accent-primary)"
             glow={true}
           />
           <StatCard
@@ -240,12 +242,12 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
             value={jobState.duration}
             subtext="Durable Temporal execution"
             icon={Clock}
-            accentColor="var(--bright-purple)"
+            accentColor="var(--accent-violet)"
           />
         </div>
 
-        {/* Two-Column Review Layout: Left is Tabs, Right is Maintainer Gate */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '24px', alignItems: 'flex-start' }}>
+        {/* Two-Column Review Workspace */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '26px', alignItems: 'flex-start' }}>
           
           {/* Left Column: Code Diff, Test Terminal, Evidence, Audit */}
           <PatchReviewLayout
@@ -257,7 +259,7 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
           />
 
           {/* Right Column: Maintainer Gate & Infrastructure Specs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
             <MaintainerGate
               stage={jobState.stage}
               onApproveProposal={handleApproveProposal}
