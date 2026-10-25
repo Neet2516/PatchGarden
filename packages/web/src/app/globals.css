@@ -1,36 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg-primary: #0a0e14;
-  --bg-secondary: #0f1520;
-  --bg-tertiary: #161f30;
-  --bg-glass: rgba(15, 21, 32, 0.75);
+  /* Neon Noir / Cyberpunk AI Operations Theme */
+  --bg-main: #09090F;
+  --bg-secondary: #0D0D16;
+  --card-surface: #11111B;
+  --elevated-surface: #171725;
+  --hover-surface: #1D1D2D;
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(46, 204, 113, 0.4);
+  --primary-purple: #A855F7;
+  --bright-purple: #C084FC;
+  --deep-purple: #7C3AED;
+  --purple-glow-color: rgba(168, 85, 247, 0.2);
+  --purple-border: #3B2855;
   
-  --text-primary: #f0f4f8;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --neon-cyan: #22D3EE;
+  --soft-cyan: #67E8F9;
+  --cyan-glow-color: rgba(34, 211, 238, 0.2);
   
-  --accent-green: #10b981;
-  --accent-green-glow: rgba(16, 185, 129, 0.25);
-  --accent-emerald: #059669;
-  --accent-teal: #14b8a6;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-amber: #f59e0b;
-  --accent-rose: #f43f5e;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
   
-  --diff-add-bg: rgba(16, 185, 129, 0.12);
-  --diff-add-text: #34d399;
-  --diff-del-bg: rgba(244, 63, 94, 0.12);
-  --diff-del-text: #fb7185;
+  --default-border: #272738;
+  --subtle-border: rgba(255, 255, 255, 0.06);
   
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --error: #FB7185;
+  --info-blue: #60A5FA;
+  
+  --diff-add-bg: rgba(52, 211, 153, 0.12);
+  --diff-add-text: #34D399;
+  --diff-add-border: rgba(52, 211, 153, 0.25);
+  --diff-del-bg: rgba(251, 113, 133, 0.12);
+  --diff-del-text: #FB7185;
+  --diff-del-border: rgba(251, 113, 133, 0.25);
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-pill: 9999px;
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
 * {
@@ -39,50 +52,92 @@
   padding: 0;
 }
 
-body {
-  background: var(--bg-primary);
+html, body {
+  background-color: var(--bg-main);
   color: var(--text-primary);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.15), transparent),
-    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(59, 130, 246, 0.08), transparent);
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Background Atmosphere */
+body {
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(34, 211, 238, 0.05) 0%, transparent 40%),
+    linear-gradient(to bottom, #09090F 0%, #0D0D16 100%);
+  background-attachment: fixed;
+}
+
+/* Typography Scale */
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
 code, pre {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
 }
 
-/* Glass Card */
+/* Reusable Theme Utilities */
 .glass-panel {
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background: var(--card-surface);
+  border: 1px solid var(--default-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.glass-panel-interactive {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-panel-elevated {
+  background: var(--elevated-surface);
+  border: 1px solid var(--default-border);
+  border-radius: var(--radius-md);
 }
 
-.glass-panel-interactive:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+.purple-glow {
+  box-shadow: 
+    0 0 0 1px rgba(168, 85, 247, 0.25),
+    0 0 20px rgba(168, 85, 247, 0.15);
 }
 
-/* Animations */
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+.cyan-glow {
+  box-shadow: 
+    0 0 0 1px rgba(34, 211, 238, 0.25),
+    0 0 20px rgba(34, 211, 238, 0.15);
 }
 
-.pulse-indicator {
-  animation: pulseGlow 2.5s infinite ease-in-out;
+.neon-border {
+  border-color: var(--purple-border) !important;
+}
+
+.surface-hover {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.surface-hover:hover {
+  background-color: var(--hover-surface);
+  border-color: rgba(168, 85, 247, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Status Indicators & Animations */
+@keyframes pulseIndicator {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 6px var(--neon-cyan)); }
+}
+
+.status-pulse {
+  animation: pulseIndicator 2.2s infinite ease-in-out;
+}
+
+@keyframes purplePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(168, 85, 247, 0); }
+}
+
+.active-step-pulse {
+  animation: purplePulse 2s infinite;
 }
 
 /* Scrollbar */
@@ -91,12 +146,27 @@ code, pre {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
+  background: var(--elevated-surface);
   border-radius: var(--radius-sm);
+  border: 1px solid var(--default-border);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: var(--primary-purple);
+}
+
+/* Accessible focus ring */
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--primary-purple);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
