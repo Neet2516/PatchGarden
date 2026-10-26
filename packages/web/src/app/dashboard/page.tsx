@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AppShell } from '@/components/layout/app-shell';
-import { WorkflowStepper } from '@/components/workflow/workflow-stepper';
-import { StatCard } from '@/components/dashboard/stat-card';
-import { PatchReviewLayout } from '@/components/review/patch-review-layout';
-import { MaintainerGate } from '@/components/review/maintainer-gate';
-import { RuntimeInfoCard } from '@/components/integrations/runtime-info-card';
+import { AppShell } from '../../components/layout/app-shell';
+import { WorkflowStepper } from '../../components/workflow/workflow-stepper';
+import { StatCard } from '../../components/dashboard/stat-card';
+import { PatchReviewLayout } from '../../components/review/patch-review-layout';
+import { MaintainerGate } from '../../components/review/maintainer-gate';
+import { RuntimeInfoCard } from '../../components/integrations/runtime-info-card';
 import {
   AlertCircle,
   CheckCircle2,

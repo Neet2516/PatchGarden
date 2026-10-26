@@ -25,7 +25,7 @@ import {
   Plus,
   Minus,
 } from 'lucide-react';
-import { useTheme } from '@/lib/theme';
+import { useTheme } from '../lib/theme';
 
 export default function LandingPage() {
   const { theme, toggleTheme } = useTheme();

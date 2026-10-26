@@ -10,7 +10,7 @@ import {
   Moon,
   Menu,
 } from 'lucide-react';
-import { useTheme } from '@/lib/theme';
+import { useTheme } from '../../lib/theme';
 
 interface TopbarProps {
   repoPath: string;
