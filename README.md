@@ -8,6 +8,31 @@
 [![Temporal](https://img.shields.io/badge/Temporal-Durable%20Workflows-black?style=for-the-badge&logo=temporal)](https://temporal.io/)
 [![Gemma 3](https://img.shields.io/badge/Gemma%203-Local%20Inference-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev/gemma)
 [![Sentry](https://img.shields.io/badge/Sentry-Agent%20Observability-362D59?style=for-the-badge&logo=sentry)](https://sentry.io/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7?style=for-the-badge&logo=render)](https://patchgarden-web.onrender.com)
+
+---
+
+## 📸 Screenshots
+
+> **Live Demo:** [https://patchgarden-web.onrender.com](https://patchgarden-web.onrender.com)
+
+### Broadsheet Landing Page
+
+![PatchGarden Landing Page — The Daily Patchgarden Broadsheet with Newsprint design system showing the masthead, headline, and editorial content](docs/screenshots/landing_page.png)
+
+*The Newsprint-styled broadsheet landing page — inspired by investigative journalism. Includes the 5-stage workflow overview, safety comparison table, and live fixture verification output.*
+
+### Operations Dashboard
+
+![PatchGarden Operations Dashboard — Active maintenance run for fixtures/broken-calc with Candidate Patch diff, Maintainer Review Gate, and AI Ops Infrastructure panel](docs/screenshots/dashboard_overview.png)
+
+*The maintainer control room. Shows the active job `job_slow_steady_01` investigating `fixtures/broken-calc`. Gemma 3:4B's proposed minimal diff is displayed, with the human Maintainer Gate requiring explicit approval before any worktree is provisioned.*
+
+### Candidate Patch Review
+
+![PatchGarden Review Workspace — Candidate patch diff and Maintainer Review Gate](docs/screenshots/dashboard_review.png)
+
+*The review workspace showing the sanitized candidate diff, test runner output, and immutable audit trail — all in one panel.*
 
 ---
 
