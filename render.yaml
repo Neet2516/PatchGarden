@@ -7,7 +7,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    buildCommand: npm install && npm run build -w packages/core && npm run build -w packages/api
+    buildCommand: npm install --include=dev && npm run build -w packages/core && npm run build -w packages/api
     startCommand: node packages/api/dist/index.js
     healthCheckPath: /health
     envVars:
@@ -32,7 +32,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    buildCommand: npm install && npm run build -w packages/web
+    buildCommand: npm install --include=dev && npm run build -w packages/web
     startCommand: npm run start -w packages/web
     envVars:
       - key: NODE_VERSION
