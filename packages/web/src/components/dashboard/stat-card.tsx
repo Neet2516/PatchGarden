@@ -41,10 +41,10 @@ export function StatCard({
             style={{
               width: '32px',
               height: '32px',
-              borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              border: 'var(--dp-border-hairline) solid var(--dp-color-rule)',
             }}
           >
             <Icon size={16} style={{ color: accentColor }} />

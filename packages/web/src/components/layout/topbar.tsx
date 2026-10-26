@@ -26,15 +26,13 @@ export function Topbar({ repoPath, onMobileMenuToggle }: TopbarProps) {
         height: '66px',
         padding: '0 24px',
         background: 'var(--surface-main)',
-        borderBottom: '1px solid var(--border-default)',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
+        borderBottom: 'var(--dp-border-hairline) solid var(--dp-color-rule)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'sticky',
         top: 0,
         zIndex: 20,
-        transition: 'background-color 0.25s ease',
       }}
     >
       {/* Left side: Workspace & Branch */}

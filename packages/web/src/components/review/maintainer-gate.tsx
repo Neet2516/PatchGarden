@@ -172,7 +172,7 @@ export function MaintainerGate({
             id="btn-gate-approve-final"
             onClick={onApproveFinal}
             disabled={isProcessing}
-            className="clay-button-primary"
+            className="newsprint-button-primary"
             style={{
               padding: '13px 20px',
               fontSize: '13px',
@@ -180,9 +180,6 @@ export function MaintainerGate({
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              background: 'linear-gradient(135deg, var(--accent-cyan) 0%, #0891b2 100%)',
-              color: '#FFFFFF',
-              boxShadow: '0 4px 14px var(--accent-cyan-glow), var(--clay-inset-button-primary)',
             }}
           >
             <ShieldCheck size={16} />

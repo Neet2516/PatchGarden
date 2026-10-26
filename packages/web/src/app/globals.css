@@ -1,133 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..900;1,8..60,400..900&display=swap');
 
 /* ==========================================================================
-   PURPLE CLAYMORPHISM DESIGN SYSTEM — PATCHGARDEN
-   Light Mode (Lavender-tinted soft clay) & Dark Mode (Deep plum molded clay)
+   NEWSPRINT DESIGN SYSTEM — AUTHORITATIVE TOKENS
+   Identity: Continuous newspaper sheet on warm paper with black serif type,
+   ruled columns, and small red marks.
    ========================================================================== */
 
 :root,
-[data-theme="dark"] {
-  --color-scheme: dark;
-  
-  /* Backgrounds & Surfaces (Plum-black dark theme) */
-  --bg-app: #100D18;
-  --bg-sidebar: #151020;
-  --surface-main: #1B1526;
-  --surface-secondary: #211A30;
-  --surface-elevated: #292039;
-  --surface-hover: #312644;
-  
-  /* Text */
-  --text-primary: #F7F2FF;
-  --text-secondary: #C5B8D9;
-  --text-muted: #A094B2;
-  
-  /* Borders */
-  --border-default: #382B4C;
-  --border-subtle: rgba(216, 197, 255, 0.08);
-  --border-purple: #553E74;
-  
-  /* Accents */
-  --accent-primary: #B794FF;
-  --accent-strong: #A78BFA;
-  --accent-violet: #8B5CF6;
-  --accent-purple-glow: rgba(167, 139, 250, 0.25);
-  --accent-cyan: #67E8F9;
-  --accent-cyan-glow: rgba(103, 232, 249, 0.2);
-  
-  /* Status Colors */
-  --status-success: #6EE7B7;
-  --status-success-bg: rgba(110, 231, 183, 0.12);
-  --status-warning: #FCD34D;
-  --status-warning-bg: rgba(252, 211, 77, 0.12);
-  --status-error: #FDA4AF;
-  --status-error-bg: rgba(253, 164, 175, 0.12);
-  --status-info: #60A5FA;
-  
-  /* Clay Shadows (Dark Theme) */
-  --clay-shadow-card: 6px 6px 20px rgba(0, 0, 0, 0.45), -4px -4px 16px rgba(41, 32, 57, 0.4);
-  --clay-shadow-raised: 8px 8px 24px rgba(0, 0, 0, 0.6), -6px -6px 20px rgba(56, 43, 76, 0.45);
-  --clay-shadow-button: 4px 4px 12px rgba(0, 0, 0, 0.4), -2px -2px 8px rgba(56, 43, 76, 0.35);
-  --clay-shadow-inset: inset 3px 3px 6px rgba(0, 0, 0, 0.5), inset -2px -2px 4px rgba(56, 43, 76, 0.3);
-  
-  /* Clay Inset Highlights */
-  --clay-inset-highlight: inset 1.5px 1.5px 2px rgba(216, 197, 255, 0.14), inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.35);
-  --clay-inset-button-primary: inset 1px 1px 2px rgba(255, 255, 255, 0.3), inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.3);
-  
-  /* Code Diff */
-  --diff-bg: #0C0A12;
-  --diff-add-bg: rgba(110, 231, 183, 0.1);
-  --diff-add-text: #6EE7B7;
-  --diff-del-bg: rgba(253, 164, 175, 0.1);
-  --diff-del-text: #FDA4AF;
-}
-
 [data-theme="light"] {
   --color-scheme: light;
-  
-  /* Backgrounds & Surfaces (Lavender-tinted soft clay light theme) */
-  --bg-app: #F3F0FA;
-  --bg-sidebar: #ECE6F7;
-  --surface-main: #FFFCFF;
-  --surface-secondary: #F7F2FF;
-  --surface-elevated: #FFFFFF;
-  --surface-hover: #ECE4FA;
-  
-  /* Text */
-  --text-primary: #30263D;
-  --text-secondary: #62576F;
-  --text-muted: #786F85;
-  
-  /* Borders */
-  --border-default: #E0D5EF;
-  --border-subtle: rgba(124, 58, 237, 0.08);
-  --border-purple: #C8B7E6;
-  
-  /* Accents */
-  --accent-primary: #7C3AED;
-  --accent-strong: #6D28D9;
-  --accent-violet: #8B5CF6;
-  --accent-purple-glow: rgba(124, 58, 237, 0.18);
-  --accent-cyan: #0891B2;
-  --accent-cyan-glow: rgba(8, 145, 178, 0.15);
-  
-  /* Status Colors */
-  --status-success: #047857;
-  --status-success-bg: rgba(4, 120, 87, 0.08);
-  --status-warning: #92400E;
-  --status-warning-bg: rgba(146, 64, 14, 0.08);
-  --status-error: #BE123C;
-  --status-error-bg: rgba(190, 18, 60, 0.08);
-  --status-info: #2563EB;
-  
-  /* Clay Shadows (Light Theme) */
-  --clay-shadow-card: 6px 6px 18px rgba(124, 58, 237, 0.07), -6px -6px 18px rgba(255, 255, 255, 0.95);
-  --clay-shadow-raised: 8px 8px 24px rgba(124, 58, 237, 0.1), -8px -8px 24px rgba(255, 255, 255, 1);
-  --clay-shadow-button: 4px 4px 12px rgba(124, 58, 237, 0.1), -3px -3px 10px rgba(255, 255, 255, 0.9);
-  --clay-shadow-inset: inset 3px 3px 6px rgba(124, 58, 237, 0.08), inset -3px -3px 6px rgba(255, 255, 255, 0.9);
-  
-  /* Clay Inset Highlights */
-  --clay-inset-highlight: inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.95), inset -1.5px -1.5px 3px rgba(124, 58, 237, 0.05);
-  --clay-inset-button-primary: inset 1px 1px 2px rgba(255, 255, 255, 0.4), inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.2);
-  
-  /* Code Diff (Kept dark for superior code contrast) */
-  --diff-bg: #15111E;
-  --diff-add-bg: rgba(16, 185, 129, 0.14);
-  --diff-add-text: #34D399;
-  --diff-del-bg: rgba(244, 63, 94, 0.14);
-  --diff-del-text: #FB7185;
+
+  /* Authoritative Design Tokens */
+  --dp-color-ground: #f3efe5;
+  --dp-color-ink: #191916;
+  --dp-color-secondary: #494843;
+  --dp-color-rule: #9b978e;
+  --dp-color-accent: #a3231d;
+
+  --dp-typography-display: "Source Serif 4", "Newsprint Display", Georgia, serif;
+  --dp-typography-reading: "EB Garamond", "Newsprint Reading", Georgia, serif;
+  --dp-typography-body: 20px;
+  --dp-typography-reading-compact: 19px;
+  --dp-typography-label: 12px;
+  --dp-typography-control: 15px;
+
+  --dp-typography-label-weight: 650;
+  --dp-typography-display-weight: 900;
+  --dp-typography-body-leading: 1.3;
+  --dp-typography-control-leading: 1.2;
+  --dp-typography-label-tracking: 0.09em;
+
+  --dp-spacing-column: 24px;
+  --dp-spacing-story: 22px;
+
+  --dp-radius-control: 0;
+  --dp-border-hairline: 1px;
+  --dp-border-section: 4px;
+  --dp-border-focus: 2px;
+  --dp-motion-transition: none;
+
+  /* Semantic Mappings for Existing Architecture */
+  --bg-app: var(--dp-color-ground);
+  --bg-sidebar: #ede7da;
+  --surface-main: var(--dp-color-ground);
+  --surface-secondary: #eae4d5;
+  --surface-elevated: #faf7f0;
+  --surface-hover: var(--dp-color-ink);
+
+  --text-primary: var(--dp-color-ink);
+  --text-secondary: var(--dp-color-secondary);
+  --text-muted: #6e6b63;
+
+  --border-default: var(--dp-color-rule);
+  --border-subtle: #d3cdc2;
+  --border-purple: var(--dp-color-ink);
+
+  --accent-primary: var(--dp-color-accent);
+  --accent-strong: #851b15;
+  --accent-violet: var(--dp-color-ink);
+  --accent-purple-glow: rgba(163, 35, 29, 0.15);
+  --accent-cyan: #225a66;
+  --accent-cyan-glow: rgba(34, 90, 102, 0.15);
+
+  --status-success: #1b633b;
+  --status-success-bg: rgba(27, 99, 59, 0.08);
+  --status-warning: #855308;
+  --status-warning-bg: rgba(133, 83, 8, 0.08);
+  --status-error: var(--dp-color-accent);
+  --status-error-bg: rgba(163, 35, 29, 0.08);
+  --status-info: #1b4b73;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
+
+  --font-sans: var(--dp-typography-display);
+  --font-serif: var(--dp-typography-reading);
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --diff-bg: #eae4d5;
+  --diff-add-bg: rgba(27, 99, 59, 0.14);
+  --diff-add-text: #14502f;
+  --diff-del-bg: rgba(163, 35, 29, 0.14);
+  --diff-del-text: var(--dp-color-accent);
+
+  --clay-shadow-card: none;
+  --clay-shadow-raised: none;
+  --clay-shadow-button: none;
+  --clay-shadow-inset: none;
+  --clay-inset-highlight: none;
+  --clay-inset-button-primary: none;
 }
 
-/* Base Dimensions */
-:root {
-  --radius-sm: 9px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
-  --radius-pill: 9999px;
-  
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+[data-theme="dark"] {
+  --color-scheme: dark;
+
+  /* Authoritative Night Broadside Edition */
+  --dp-color-ground: #161513;
+  --dp-color-ink: #f4efe6;
+  --dp-color-secondary: #b5afa4;
+  --dp-color-rule: #48453f;
+  --dp-color-accent: #e0443d;
+
+  --bg-app: var(--dp-color-ground);
+  --bg-sidebar: #1b1a17;
+  --surface-main: var(--dp-color-ground);
+  --surface-secondary: #211f1c;
+  --surface-elevated: #262420;
+  --surface-hover: var(--dp-color-ink);
+
+  --text-primary: var(--dp-color-ink);
+  --text-secondary: var(--dp-color-secondary);
+  --text-muted: #858076;
+
+  --border-default: var(--dp-color-rule);
+  --border-subtle: #33312c;
+  --border-purple: var(--dp-color-ink);
+
+  --accent-primary: var(--dp-color-accent);
+  --accent-strong: #ff5c54;
+  --accent-violet: var(--dp-color-ink);
+  --accent-purple-glow: rgba(224, 68, 61, 0.2);
+  --accent-cyan: #38bdf8;
+  --accent-cyan-glow: rgba(56, 189, 248, 0.18);
+
+  --status-success: #4ade80;
+  --status-success-bg: rgba(74, 222, 128, 0.12);
+  --status-warning: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.12);
+  --status-error: #f87171;
+  --status-error-bg: rgba(248, 113, 113, 0.12);
+  --status-info: #60a5fa;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
+
+  --diff-bg: #1f1d19;
+  --diff-add-bg: rgba(74, 222, 128, 0.14);
+  --diff-add-text: #86efac;
+  --diff-del-bg: rgba(248, 113, 113, 0.14);
+  --diff-del-text: #fca5a5;
+
+  --clay-shadow-card: none;
+  --clay-shadow-raised: none;
+  --clay-shadow-button: none;
+  --clay-shadow-inset: none;
+  --clay-inset-highlight: none;
+  --clay-inset-button-primary: none;
 }
+
+/* ==========================================================================
+   BASE & RESET
+   ========================================================================== */
 
 * {
   box-sizing: border-box;
@@ -136,181 +163,312 @@
 }
 
 html, body {
-  background-color: var(--bg-app);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
+  background-color: var(--dp-color-ground);
+  color: var(--dp-color-ink);
+  font-family: var(--dp-typography-reading);
+  font-size: var(--dp-typography-reading-compact);
+  line-height: var(--dp-typography-body-leading);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: var(--dp-motion-transition);
 }
 
-/* Background Atmosphere */
+/* Clean Flat Newspaper Surface — No decorative grain or blur */
 body {
-  background-image: 
-    radial-gradient(circle at 10% 5%, rgba(139, 92, 246, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 90% 90%, rgba(103, 232, 249, 0.04) 0%, transparent 40%);
-  background-attachment: fixed;
+  background-image: none;
+  letter-spacing: -0.01em;
 }
 
-/* Typography Scale */
-h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
-h2 { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
-h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); }
-h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+/* Editorial Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--dp-typography-display);
+  color: var(--dp-color-ink);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 34px;
+  font-weight: var(--dp-typography-display-weight);
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 650;
+}
+
+h4 {
+  font-size: var(--dp-typography-label);
+  font-weight: var(--dp-typography-label-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--dp-typography-label-tracking);
+}
+
+p {
+  font-family: var(--dp-typography-reading);
+  font-size: var(--dp-typography-reading-compact);
+  line-height: var(--dp-typography-body-leading);
+  color: var(--dp-color-ink);
+}
 
 code, pre {
   font-family: var(--font-mono);
 }
 
 /* ==========================================================================
-   REUSABLE CLAYMORPHISM UTILITY CLASSES
+   NEWSPRINT EDITORIAL UTILITY CLASSES
    ========================================================================== */
 
-/* Standard Clay Surface */
-.clay-surface {
-  background: var(--surface-main);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--clay-shadow-card), var(--clay-inset-highlight);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+/* Broad section rule — 4px black/ink divider */
+.newsprint-section-rule {
+  border: none;
+  border-top: var(--dp-border-section) solid var(--dp-color-ink);
+  margin: 0;
 }
 
-/* Clay Card */
-.clay-card {
-  background: var(--surface-main);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--clay-shadow-card), var(--clay-inset-highlight);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.newsprint-section-rule-subtle {
+  border: none;
+  border-top: var(--dp-border-section) solid var(--dp-color-rule);
+  margin: 0;
 }
 
-/* Elevated Clay Card */
-.clay-card-raised {
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-purple);
-  border-radius: var(--radius-md);
-  box-shadow: var(--clay-shadow-raised), var(--clay-inset-highlight);
+/* Hairline divider — 1px divider */
+.newsprint-hairline {
+  border: none;
+  border-top: var(--dp-border-hairline) solid var(--dp-color-rule);
+  margin: 0;
 }
 
-/* Inset / Recessed Panel */
-.clay-card-inset {
-  background: var(--surface-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: var(--clay-shadow-inset);
+/* Double rule header */
+.newsprint-double-rule {
+  border-top: 3px solid var(--dp-color-ink);
+  border-bottom: 1px solid var(--dp-color-ink);
+  padding: 4px 0;
 }
 
-/* Interactive Clay Button */
-.clay-button {
-  background: var(--surface-main);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--clay-shadow-button), var(--clay-inset-highlight);
-  color: var(--text-primary);
-  font-weight: 500;
+/* Red accent marker / badge */
+.newsprint-marker-red {
+  display: inline-block;
+  color: var(--dp-color-accent);
+  font-family: var(--dp-typography-display);
+  font-size: var(--dp-typography-label);
+  font-weight: var(--dp-typography-label-weight);
+  letter-spacing: var(--dp-typography-label-tracking);
+  text-transform: uppercase;
+}
+
+.newsprint-badge-red {
+  display: inline-flex;
+  align-items: center;
+  background: var(--dp-color-accent);
+  color: #ffffff;
+  font-family: var(--dp-typography-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 0;
+}
+
+/* Byline style */
+.newsprint-byline {
+  font-family: var(--dp-typography-display);
+  font-size: var(--dp-typography-label);
+  font-weight: var(--dp-typography-label-weight);
+  letter-spacing: var(--dp-typography-label-tracking);
+  text-transform: uppercase;
+  color: var(--dp-color-secondary);
+}
+
+/* Drop Cap for Editorial Lead */
+.newsprint-dropcap::first-letter {
+  font-family: var(--dp-typography-display);
+  font-size: 52px;
+  font-weight: 900;
+  float: left;
+  line-height: 0.85;
+  padding-right: 10px;
+  padding-top: 4px;
+  color: var(--dp-color-ink);
+}
+
+/* ==========================================================================
+   COMPONENT STYLES: ACTIONS, CARDS, DISCLOSURES
+   ========================================================================== */
+
+/* Square, clearly labeled actions with thin black border */
+.clay-button,
+.newsprint-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: var(--dp-border-hairline) solid var(--dp-color-ink) !important;
+  border-radius: var(--dp-radius-control) !important;
+  background: transparent !important;
+  color: var(--dp-color-ink) !important;
+  box-shadow: none !important;
+  font-family: var(--dp-typography-display) !important;
+  font-size: var(--dp-typography-control) !important;
+  font-weight: 600 !important;
+  line-height: var(--dp-typography-control-leading) !important;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: var(--dp-motion-transition) !important;
+  text-decoration: none;
 }
 
-.clay-button:hover {
-  transform: translateY(-1px);
-  background: var(--surface-hover);
-  border-color: var(--border-purple);
+/* Immediate foreground/background inversion on hover */
+.clay-button:hover,
+.newsprint-button:hover {
+  background: var(--dp-color-ink) !important;
+  color: var(--dp-color-ground) !important;
 }
 
-.clay-button:active {
-  transform: translateY(1px);
-  box-shadow: var(--clay-shadow-inset);
-}
-
-/* Primary Violet Clay Button */
-.clay-button-primary {
-  background: linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-violet) 100%);
-  border: 1px solid var(--accent-primary);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 14px var(--accent-purple-glow), var(--clay-inset-button-primary);
-  color: #FFFFFF;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.clay-button-primary:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 18px var(--accent-purple-glow), var(--clay-inset-button-primary);
-  filter: brightness(1.05);
-}
-
-.clay-button-primary:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px var(--accent-purple-glow), inset 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Soft Purple Ambient Glow */
-.purple-glow {
-  box-shadow: 
-    var(--clay-shadow-card),
-    0 0 24px var(--accent-purple-glow);
-}
-
-/* Accessible Focus Ring */
-.theme-focus-ring:focus-visible,
+.clay-button:focus-visible,
+.newsprint-button:focus-visible,
 button:focus-visible,
-a:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent-primary);
-  outline-offset: 2px;
+a:focus-visible {
+  outline: var(--dp-border-focus) solid var(--dp-color-ink) !important;
+  outline-offset: 2px !important;
 }
 
-/* Pulse Animation for Active Operations */
-@keyframes softPulse {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 6px var(--accent-primary)); }
+/* Primary Inverted Button */
+.clay-button-primary,
+.newsprint-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: var(--dp-border-hairline) solid var(--dp-color-ink) !important;
+  border-radius: var(--dp-radius-control) !important;
+  background: var(--dp-color-ink) !important;
+  color: var(--dp-color-ground) !important;
+  box-shadow: none !important;
+  font-family: var(--dp-typography-display) !important;
+  font-size: var(--dp-typography-control) !important;
+  font-weight: 700 !important;
+  line-height: var(--dp-typography-control-leading) !important;
+  cursor: pointer;
+  transition: var(--dp-motion-transition) !important;
+  text-decoration: none;
 }
 
-.status-pulse {
-  animation: softPulse 2.4s infinite ease-in-out;
+.clay-button-primary:hover,
+.newsprint-button-primary:hover {
+  background: var(--dp-color-accent) !important;
+  border-color: var(--dp-color-accent) !important;
+  color: #ffffff !important;
 }
 
-@keyframes purpleRingGlow {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-purple-glow); }
-  70% { box-shadow: 0 0 0 8px transparent; }
+/* Flat Ruled Newspaper Cards */
+.clay-surface,
+.clay-card,
+.clay-card-raised,
+.newsprint-card {
+  background: var(--surface-main) !important;
+  border: var(--dp-border-hairline) solid var(--dp-color-rule) !important;
+  border-radius: var(--dp-radius-control) !important;
+  box-shadow: none !important;
+  transition: var(--dp-motion-transition) !important;
 }
 
-.active-step-glow {
-  animation: purpleRingGlow 2.2s infinite ease-in-out;
+.clay-card-inset {
+  background: var(--surface-secondary) !important;
+  border: var(--dp-border-hairline) solid var(--dp-color-rule) !important;
+  border-radius: var(--dp-radius-control) !important;
+  box-shadow: none !important;
 }
 
-/* Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-app);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--surface-elevated);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-default);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-primary);
+/* Comparison Table */
+.newsprint-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--dp-typography-display);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+.newsprint-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: var(--dp-typography-label);
+  font-weight: var(--dp-typography-label-weight);
+  letter-spacing: var(--dp-typography-label-tracking);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--dp-color-ink);
+  color: var(--dp-color-ink);
+}
+
+.newsprint-table td {
+  padding: 14px;
+  border-bottom: var(--dp-border-hairline) solid var(--dp-color-rule);
+  font-size: 15px;
+  vertical-align: top;
+}
+
+/* Native Ruled Disclosures */
+details.newsprint-disclosure {
+  border-bottom: var(--dp-border-hairline) solid var(--dp-color-rule);
+  padding: 14px 0;
+}
+
+details.newsprint-disclosure summary {
+  font-family: var(--dp-typography-display);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+details.newsprint-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+details.newsprint-disclosure[open] summary {
+  color: var(--dp-color-accent);
+}
+
+details.newsprint-disclosure .disclosure-content {
+  padding-top: 10px;
+  font-family: var(--dp-typography-reading);
+  font-size: var(--dp-typography-reading-compact);
+  color: var(--dp-color-secondary);
+}
+
+/* ==========================================================================
+   RESPONSIVE EDITORIAL RULES
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .newsprint-lead-split {
+    grid-template-columns: 1fr 280px !important;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
+  .newsprint-lead-split {
+    grid-template-columns: 1fr !important;
+  }
+
   .hidden-mobile {
     display: none !important;
+  }
+
+  .newsprint-vertical-rule {
+    border-right: none !important;
+    border-bottom: var(--dp-border-hairline) solid var(--dp-color-rule) !important;
+    padding-bottom: var(--dp-spacing-story) !important;
+    margin-bottom: var(--dp-spacing-story) !important;
   }
 }

@@ -56,25 +56,20 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
         <div
           style={{
             position: 'absolute',
-            top: '22px',
+            top: '20px',
             left: '32px',
             right: '32px',
-            height: '4px',
-            background: 'var(--surface-secondary)',
-            borderRadius: '4px',
-            boxShadow: 'var(--clay-shadow-inset)',
+            height: '2px',
+            background: 'var(--dp-color-rule)',
             zIndex: 1,
           }}
         >
-          {/* Active Progress Fill with Soft Purple Gradient */}
+          {/* Active Progress Fill */}
           <div
             style={{
               height: '100%',
               width: `${(Math.max(0, currentIndex) / (WORKFLOW_STAGES.length - 1)) * 100}%`,
-              background: 'linear-gradient(90deg, var(--accent-violet) 0%, var(--accent-primary) 70%, var(--accent-cyan) 100%)',
-              borderRadius: '4px',
-              boxShadow: '0 0 10px var(--accent-purple-glow)',
-              transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              background: 'var(--dp-color-ink)',
             }}
           />
         </div>
@@ -99,48 +94,35 @@ export function WorkflowStepper({ currentStageId, isFailed = false }: WorkflowSt
                 cursor: 'default',
               }}
             >
-              {/* Molded Clay Circle Node */}
+              {/* Flat Square Newsprint Step Node */}
               <div
-                className={
-                  isCurrent
-                    ? 'active-step-glow'
-                    : isPassed
-                    ? 'clay-card'
-                    : 'clay-card-inset'
-                }
                 style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: 0,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.25s ease',
                   background: isCurrent
-                    ? (isFailed ? 'var(--status-error-bg)' : 'linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-violet) 100%)')
+                    ? (isFailed ? 'var(--dp-color-accent)' : 'var(--dp-color-ink)')
                     : isPassed
                     ? 'var(--surface-elevated)'
                     : 'var(--surface-secondary)',
                   border: isCurrent
-                    ? (isFailed ? '2px solid var(--status-error)' : '2px solid var(--accent-primary)')
+                    ? '2px solid var(--dp-color-ink)'
                     : isPassed
-                    ? '2px solid var(--border-purple)'
-                    : '2px solid var(--border-default)',
-                  boxShadow: isCurrent
-                    ? '0 6px 18px var(--accent-purple-glow), var(--clay-inset-button-primary)'
-                    : isPassed
-                    ? 'var(--clay-shadow-button), var(--clay-inset-highlight)'
-                    : 'var(--clay-shadow-inset)',
+                    ? '1px solid var(--dp-color-ink)'
+                    : '1px solid var(--dp-color-rule)',
                 }}
               >
                 <Icon
-                  size={19}
+                  size={18}
                   style={{
                     color: isCurrent
-                      ? (isFailed ? 'var(--status-error)' : '#FFFFFF')
+                      ? 'var(--dp-color-ground)'
                       : isPassed
-                      ? 'var(--status-success)'
-                      : 'var(--text-muted)',
+                      ? 'var(--dp-color-ink)'
+                      : 'var(--dp-color-secondary)',
                   }}
                 />
               </div>

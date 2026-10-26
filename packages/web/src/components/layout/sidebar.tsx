@@ -43,7 +43,6 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
         position: 'relative',
         zIndex: 30,
         flexShrink: 0,
-        boxShadow: '2px 0 12px rgba(0, 0, 0, 0.04)',
       }}
     >
       {/* Brand Header */}
@@ -63,7 +62,7 @@ export function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: Si
             style={{
               width: '36px',
               height: '36px',
-              borderRadius: '10px',
+              borderRadius: 0,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

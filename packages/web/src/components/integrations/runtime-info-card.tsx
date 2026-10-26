@@ -62,12 +62,12 @@ export function RuntimeInfoCard() {
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '8px',
+                  borderRadius: 0,
                   background: 'var(--surface-main)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: 'var(--clay-shadow-button)',
+                  border: '1px solid var(--dp-color-rule)',
                   flexShrink: 0,
                 }}
               >

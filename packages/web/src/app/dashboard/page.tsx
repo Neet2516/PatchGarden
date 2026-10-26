@@ -179,35 +179,27 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
-              className="clay-card"
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-pill)',
+                padding: '6px 12px',
                 background: jobState.failingCount > 0 ? 'var(--status-warning-bg)' : 'var(--status-success-bg)',
                 border: `1px solid ${jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)'}`,
                 color: jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)',
-                fontSize: '12px',
-                fontWeight: '700',
+                fontSize: '11.5px',
+                fontFamily: 'var(--dp-typography-display)',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
               }}
             >
-              <span
-                style={{
-                  width: '7px',
-                  height: '7px',
-                  borderRadius: '50%',
-                  background: jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)',
-                  boxShadow: `0 0 8px ${jobState.failingCount > 0 ? 'var(--status-warning)' : 'var(--status-success)'}`,
-                }}
-              />
-              <span>{jobState.stage === 'COMPLETE' ? 'Maintenance Sealed' : 'Maintainer Action Required'}</span>
+              <span>{jobState.stage === 'COMPLETE' ? '● MAINTENANCE SEALED' : '★ MAINTAINER ACTION REQUIRED'}</span>
             </div>
           </div>
         </div>
 
-        {/* 10-Stage Purple Claymorphism Workflow Stepper */}
+        {/* 10-Stage Newsprint Workflow Stepper */}
         <WorkflowStepper
           currentStageId={jobState.stage}
           isFailed={jobState.status === 'FAILED'}
