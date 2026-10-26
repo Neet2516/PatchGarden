@@ -34,10 +34,17 @@ const app = Fastify({
 
 app.register(helmet, { global: true });
 app.register(cors, {
-  origin: [
-    'http://localhost:3000',
-    process.env['FRONTEND_URL'] ?? 'http://localhost:3000',
-  ],
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);
+    if (
+      origin === 'http://localhost:3000' ||
+      origin.endsWith('.onrender.com') ||
+      (process.env['FRONTEND_URL'] && origin === process.env['FRONTEND_URL'])
+    ) {
+      return cb(null, true);
+    }
+    return cb(null, true);
+  },
   credentials: true,
 });
 app.register(websocket);

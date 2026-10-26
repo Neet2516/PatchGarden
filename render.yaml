@@ -5,31 +5,22 @@ services:
   - type: web
     name: patchgarden-api
     runtime: node
-    plan: starter
+    plan: free
     region: oregon
     buildCommand: npm install && npm run build -w packages/core && npm run build -w packages/api
     startCommand: node packages/api/dist/index.js
     healthCheckPath: /health
-    disk:
-      name: patchgarden-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: DATABASE_PATH
-        value: /var/data/patchgarden.db
+        value: ./patchgarden.db
       - key: LOG_LEVEL
         value: info
-      - key: TEMPORAL_ADDRESS
-        sync: false
-      - key: TEMPORAL_NAMESPACE
-        value: default
       - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: patchgarden-web
-          property: url
+        value: https://patchgarden-web.onrender.com
 
   # ────────────────────────────────────────────────────────────────────────────
   # PatchGarden Frontend Next.js Web App
@@ -37,7 +28,7 @@ services:
   - type: web
     name: patchgarden-web
     runtime: node
-    plan: starter
+    plan: free
     region: oregon
     buildCommand: npm install && npm run build -w packages/web
     startCommand: npm run start -w packages/web
@@ -45,7 +36,4 @@ services:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: patchgarden-api
-          property: url
+        value: https://patchgarden-api.onrender.com
