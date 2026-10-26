@@ -18,6 +18,8 @@ interface PatchReviewLayoutProps {
   filesModified: string[];
   testOutput: string;
   testPassed?: boolean;
+  activeTab?: 'diff' | 'terminal' | 'evidence' | 'audit';
+  onTabChange?: (tab: 'diff' | 'terminal' | 'evidence' | 'audit') => void;
 }
 
 export function PatchReviewLayout({
@@ -26,8 +28,15 @@ export function PatchReviewLayout({
   filesModified,
   testOutput,
   testPassed = false,
+  activeTab: externalTab,
+  onTabChange,
 }: PatchReviewLayoutProps) {
-  const [activeTab, setActiveTab] = useState<'diff' | 'terminal' | 'evidence' | 'audit'>('diff');
+  const [internalTab, setInternalTab] = useState<'diff' | 'terminal' | 'evidence' | 'audit'>('diff');
+  const activeTab = externalTab ?? internalTab;
+  const setActiveTab = (tab: 'diff' | 'terminal' | 'evidence' | 'audit') => {
+    setInternalTab(tab);
+    onTabChange?.(tab);
+  };
   const [copied, setCopied] = useState(false);
 
   const handleCopyDiff = () => {
@@ -45,6 +54,7 @@ export function PatchReviewLayout({
 
   return (
     <div
+      id="review-workspace"
       className="clay-card"
       style={{
         overflow: 'hidden',

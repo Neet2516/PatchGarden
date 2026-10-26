@@ -7,21 +7,44 @@ import { Topbar } from './topbar';
 interface AppShellProps {
   children: React.ReactNode;
   repoPath?: string;
+  activeNav?: string;
+  onNavSelect?: (tab: string) => void;
 }
 
-export function AppShell({ children, repoPath = 'fixtures/broken-calc' }: AppShellProps) {
-  const [activeTab, setActiveTab] = useState('runs');
+export function AppShell({
+  children,
+  repoPath = 'fixtures/broken-calc',
+  activeNav,
+  onNavSelect,
+}: AppShellProps) {
+  const [internalNav, setInternalNav] = useState('runs');
+  const currentNav = activeNav ?? internalNav;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleNavSelect = (tab: string) => {
+    setInternalNav(tab);
+    onNavSelect?.(tab);
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-app)', transition: 'background-color 0.25s ease' }}>
+    <div
+      style={{
+        display: 'flex',
+        minHeight: '100vh',
+        background: 'var(--dp-color-ground)',
+        color: 'var(--dp-color-ink)',
+      }}
+    >
       {/* Sidebar Navigation */}
       <Sidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeTab={currentNav}
+        setActiveTab={handleNavSelect}
         collapsed={sidebarCollapsed}
         setCollapsed={setSidebarCollapsed}
+        mobileOpen={mobileMenuOpen}
+        onCloseMobile={() => setMobileMenuOpen(false)}
       />
 
       {/* Main Content Area */}
@@ -35,30 +58,30 @@ export function AppShell({ children, repoPath = 'fixtures/broken-calc' }: AppShe
           {children}
         </main>
 
-        {/* Global Footer */}
+        {/* Global Newsprint Footer */}
         <footer
           style={{
-            padding: '18px 28px',
-            borderTop: '1px solid var(--border-default)',
+            padding: '16px 28px',
+            borderTop: 'var(--dp-border-hairline) solid var(--dp-color-rule)',
             background: 'var(--surface-main)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             fontSize: '12px',
-            color: 'var(--text-muted)',
+            fontFamily: 'var(--dp-typography-display)',
+            color: 'var(--dp-color-secondary)',
             flexWrap: 'wrap',
             gap: '12px',
-            transition: 'background-color 0.25s ease',
           }}
         >
           <div>
-            <strong style={{ color: 'var(--text-primary)' }}>PatchGarden</strong> — AI Maintenance Engineer That Never Rushes a Patch • MIT License
+            <strong>PATCHGARDEN DISPATCH</strong> — AI Maintenance Engineer That Never Rushes a Patch • MIT License
           </div>
-          <div style={{ display: 'flex', gap: '18px', fontWeight: '500' }}>
-            <span>Temporal Workflows</span>
-            <span>Google Gemma 3 (Local)</span>
-            <span>Sentry Traced</span>
-            <span style={{ color: 'var(--accent-primary)', fontWeight: '700' }}>Hacktoberfest 2026</span>
+          <div style={{ display: 'flex', gap: '18px', fontWeight: 650 }}>
+            <span>TEMPORAL CLOUD / DEV</span>
+            <span>GOOGLE GEMMA 3 (LOCAL)</span>
+            <span>SENTRY AGENT TRACING</span>
+            <span style={{ color: 'var(--dp-color-accent)', fontWeight: 700 }}>HACKTOBERFEST 2026</span>
           </div>
         </footer>
       </div>

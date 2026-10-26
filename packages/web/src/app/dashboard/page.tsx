@@ -14,6 +14,11 @@ import {
   GitCommit,
   X,
   Sparkles,
+  Settings,
+  Server,
+  Cpu,
+  Shield,
+  Activity,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -59,6 +64,28 @@ export default function DashboardPage() {
 
   const [notification, setNotification] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [activeNav, setActiveNav] = useState('runs');
+  const [activeReviewTab, setActiveReviewTab] = useState<'diff' | 'terminal' | 'evidence' | 'audit'>('diff');
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // Sidebar Navigation Handler
+  const handleNavSelect = (navId: string) => {
+    setActiveNav(navId);
+    if (navId === 'runs') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (navId === 'patches') {
+      setActiveReviewTab('diff');
+      document.getElementById('review-workspace')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (navId === 'evidence') {
+      setActiveReviewTab('evidence');
+      document.getElementById('review-workspace')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (navId === 'audit') {
+      setActiveReviewTab('audit');
+      document.getElementById('review-workspace')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (navId === 'settings') {
+      setSettingsOpen(true);
+    }
+  };
 
   // Maintainer Action Handlers
   const handleApproveProposal = () => {
@@ -127,7 +154,11 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
   };
 
   return (
-    <AppShell repoPath={jobState.repoPath}>
+    <AppShell
+      repoPath={jobState.repoPath}
+      activeNav={activeNav}
+      onNavSelect={handleNavSelect}
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '26px' }}>
         
         {/* Toast Notification Banner */}
@@ -151,8 +182,8 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
             </div>
             <button
               onClick={() => setNotification(null)}
-              className="clay-button"
-              style={{ padding: '4px', border: 'none', background: 'transparent', boxShadow: 'none' }}
+              className="newsprint-button"
+              style={{ padding: '4px', border: 'none', background: 'transparent' }}
             >
               <X size={16} />
             </button>
@@ -248,6 +279,13 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
             filesModified={jobState.proposal.filesModified}
             testOutput={jobState.testOutput}
             testPassed={jobState.passingCount === 5}
+            activeTab={activeReviewTab}
+            onTabChange={(tab) => {
+              setActiveReviewTab(tab);
+              if (tab === 'diff') setActiveNav('patches');
+              else if (tab === 'evidence') setActiveNav('evidence');
+              else if (tab === 'audit') setActiveNav('audit');
+            }}
           />
 
           {/* Right Column: Maintainer Gate & Infrastructure Specs */}
@@ -266,6 +304,116 @@ Temporal checkpoint created. Awaiting maintainer final sign-off.`,
         </div>
 
       </div>
+
+      {/* ── SYSTEM SETTINGS MODAL ────────────────────────────────────────── */}
+      {settingsOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.55)',
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
+          onClick={() => {
+            setSettingsOpen(false);
+            setActiveNav('runs');
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'var(--dp-color-ground)',
+              border: 'var(--dp-border-section) solid var(--dp-color-ink)',
+              maxWidth: '560px',
+              width: '100%',
+              padding: '24px 28px',
+              fontFamily: 'var(--dp-typography-display)',
+              position: 'relative',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '2px solid var(--dp-color-ink)', paddingBottom: '8px', marginBottom: '16px' }}>
+              <div>
+                <span className="newsprint-badge-red">SYSTEM DISPATCH</span>
+                <h3 style={{ fontSize: '20px', textTransform: 'uppercase', margin: '4px 0 0 0' }}>
+                  Operational Configuration
+                </h3>
+              </div>
+              <button
+                onClick={() => {
+                  setSettingsOpen(false);
+                  setActiveNav('runs');
+                }}
+                className="newsprint-button"
+                style={{ padding: '4px 8px' }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '13.5px' }}>
+              <div style={{ borderBottom: 'var(--dp-border-hairline) solid var(--dp-color-rule)', paddingBottom: '10px' }}>
+                <div style={{ fontWeight: 700, textTransform: 'uppercase', color: 'var(--dp-color-accent)', fontSize: '11px' }}>
+                  LOCAL INFERENCE RUNTIME
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                  <span>Docker Ollama Engine:</span>
+                  <code>http://localhost:11434</code>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
+                  <span>Active Open Weights:</span>
+                  <code>Google Gemma 3 (4B)</code>
+                </div>
+              </div>
+
+              <div style={{ borderBottom: 'var(--dp-border-hairline) solid var(--dp-color-rule)', paddingBottom: '10px' }}>
+                <div style={{ fontWeight: 700, textTransform: 'uppercase', color: 'var(--dp-color-accent)', fontSize: '11px' }}>
+                  DURABLE ORCHESTRATION
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                  <span>Temporal gRPC Address:</span>
+                  <code>localhost:7233</code>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
+                  <span>Task Queue / Namespace:</span>
+                  <code>patchgarden-worker / patchgarden</code>
+                </div>
+              </div>
+
+              <div style={{ borderBottom: 'var(--dp-border-hairline) solid var(--dp-color-rule)', paddingBottom: '10px' }}>
+                <div style={{ fontWeight: 700, textTransform: 'uppercase', color: 'var(--dp-color-accent)', fontSize: '11px' }}>
+                  SECURITY & BOUNDS CHECKING
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4px' }}>
+                  <span>PathGuard Boundary:</span>
+                  <code>Workspace Root Whitelist</code>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
+                  <span>Secret Redaction:</span>
+                  <span style={{ color: 'var(--status-success)', fontWeight: 700 }}>ACTIVE (8 PATTERNS)</span>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => {
+                  setSettingsOpen(false);
+                  setActiveNav('runs');
+                }}
+                className="newsprint-button-primary"
+                style={{ padding: '8px 18px', fontSize: '13px' }}
+              >
+                Close Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </AppShell>
   );
 }
